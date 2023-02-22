@@ -1,8 +1,8 @@
 //
-//  GifImages.swift
+//  GiffImageEntity.swift
 //  IGyfs
 //
-//  Created by Rafael Veronez Dias on 16/02/23.
+//  Created by Rafael Veronez Dias on 21/02/23.
 //
 
 import Foundation
@@ -17,5 +17,3 @@ struct GifImage: Codable {
     
     
 }
-
-

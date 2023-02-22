@@ -1,13 +1,13 @@
 //
-//  GifEntity.swift
+//  GiffEntity.swift
 //  IGyfs
 //
-//  Created by Rafael Veronez Dias on 16/02/23.
+//  Created by Rafael Veronez Dias on 21/02/23.
 //
 
 import Foundation
 
-struct GifEntity: Codable {
+struct GiffEntity: Codable {
     let id: String
     let url: String
     let title: String

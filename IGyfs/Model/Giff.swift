@@ -1,13 +1,13 @@
 //
-//  Gif.swift
+//  Giff.swift
 //  IGyfs
 //
-//  Created by Rafael Veronez Dias on 16/02/23.
+//  Created by Rafael Veronez Dias on 21/02/23.
 //
 
 import Foundation
 
-struct Gif {
+struct Giff {
     let id: String
     let title: String
     let url: String
@@ -15,8 +15,8 @@ struct Gif {
     let isFavorite: Bool = false
     
     
-    func transformToGifFrom(gyphyGifData rawGif: GifEntity) -> Gif {
-        return Gif(
+    static func transformToGifFrom(gyphyGifData rawGif: GiffEntity) -> Giff {
+        return Giff(
             id: rawGif.id,
             title: rawGif.title,
             url: rawGif.url,
