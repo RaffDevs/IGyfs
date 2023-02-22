@@ -18,8 +18,8 @@ class GiffViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        giffViewModel.delegate(delegate: self)
         giffViewModel.getTrendingGiffs()
-        giffScreen?.configCollectionView(delegate: self, datasource: self)
         
     }
     
@@ -29,20 +29,21 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return giffViewModel.items.count
+        return giffViewModel.giffs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GiffCollectionViewCell.identifier, for: indexPath) as? GiffCollectionViewCell
         
-        cell?.setupCell(number: giffViewModel.items[indexPath.row])
+        cell?.setupCell(giff: giffViewModel.giffs[indexPath.row])
         
         return cell ?? UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width: collectionView.frame.width / 2.1, height: 200)
+        let itemSize = UIScreen.main.bounds.width/2 - 3
+
+        return CGSize(width: itemSize, height: itemSize)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -57,5 +58,21 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: view.frame.width, height: 100)
 
     }
+    
+}
+
+extension GiffViewController: GiffViewModelProtocol {
+    func success() {
+        print(#function)
+        DispatchQueue.main.async {
+            self.giffScreen?.configCollectionView(delegate: self, datasource: self)
+        }
+        
+    }
+    
+    func error() {
+        print(#function)
+    }
+    
     
 }

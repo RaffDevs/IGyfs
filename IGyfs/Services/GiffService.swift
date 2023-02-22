@@ -7,6 +7,11 @@
 
 import Foundation
 import Alamofire
+import AlamofireImage
+
+enum GiffServiceError: Swift.Error {
+    case fetchImageError(detail: String)
+}
 
 class GiffService {
     func getTrendingGiffs(completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
@@ -24,6 +29,15 @@ class GiffService {
                 print("Falha -> \(#function)")
                 completion(nil, error)
             }
+        }
+    }
+    
+    func getImageFromGiff(urlRaw: String, completion: @escaping (Data?, Error?) -> Void) {
+        guard let url = URL(string: urlRaw) else { return }
+        AF.request(url).responseImage { response in
+            guard let data = response.data else { return completion(nil, GiffServiceError.fetchImageError(detail: "Erro ao buscar imagem")) }
+            
+            completion(data, nil)
         }
     }
 }

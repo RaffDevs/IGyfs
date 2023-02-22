@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AlamofireImage
 
 protocol GiffViewModelProtocol: AnyObject {
     func success()
@@ -26,7 +27,6 @@ class GiffViewModel {
     }
     
     
-    
     func getTrendingGiffs() {
         giffService.getTrendingGiffs { data, error in
             if error == nil {
@@ -38,7 +38,19 @@ class GiffViewModel {
                 }
                 
             } else {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
+                self.delegate?.error()
+            }
+        }
+    }
+    
+    func loadImageGiff(urlString: String, completion: @escaping (Data?) -> Void) {
+        giffService.getImageFromGiff(urlRaw: urlString) { data, error in
+            if error == nil {
+                completion(data)
+            } else {
+                print(#function)
+                print(error!.localizedDescription)
             }
         }
     }

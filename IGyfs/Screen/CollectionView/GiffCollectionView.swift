@@ -14,11 +14,12 @@ class GiffCollectionView: UIView {
     lazy var collection: UICollectionView = {
         let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = .vertical
+        collectionLayout.minimumInteritemSpacing = 3
+        collectionLayout.minimumLineSpacing = 3
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .red
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 3)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.register(GiffCollectionViewCell.self, forCellWithReuseIdentifier: GiffCollectionViewCell.identifier)
         collectionView.register(GiffHeaderCollectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: GiffHeaderCollectionView.identifier)
         
