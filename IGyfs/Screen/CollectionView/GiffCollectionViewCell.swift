@@ -11,7 +11,7 @@ import SDWebImage
 
 class GiffCollectionViewCell: UICollectionViewCell {
     static let identifier = "GiffCollectionViewCell"
-    private let giffViewModel: GiffViewModel = GiffViewModel()
+    private let giffViewModel: GiffViewModel = GiffViewModel.shared
         
     lazy var label: UILabel = {
         let label = UILabel()

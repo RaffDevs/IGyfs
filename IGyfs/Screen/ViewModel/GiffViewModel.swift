@@ -11,12 +11,17 @@ import AlamofireImage
 protocol GiffViewModelProtocol: AnyObject {
     func success()
     func error()
+    func reloadSearchGiffs()
 }
 
 class GiffViewModel {
-    private var giffService: GiffService = GiffService()
+    static let shared:GiffViewModel = GiffViewModel()
+
+    private var giffService: GiffService = GiffService.shared
     private var listGiffs: [Giff] = []
     private weak var delegate: GiffViewModelProtocol?
+    
+    private init() {}
     
     public func delegate(delegate: GiffViewModelProtocol) {
         self.delegate = delegate
@@ -26,14 +31,33 @@ class GiffViewModel {
         listGiffs
     }
     
+    func searchForGiffs(search: String) {
+        giffService.searchGiffs(search: search) { data, error in
+            if error == nil {
+                if let gyphyData = data?.data {
+                    self.listGiffs.removeAll()
+                    self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
+                        Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
+                    }))
+                    self.delegate?.reloadSearchGiffs()
+                    
+                }
+            } else {
+                print(error!.localizedDescription)
+                self.delegate?.error()
+            }
+        }
+    }
+    
     
     func getTrendingGiffs() {
         giffService.getTrendingGiffs { data, error in
             if error == nil {
                 if let gyphyData = data?.data {
-                    for item in gyphyData {
-                        self.listGiffs.append(Giff.transformToGifFrom(gyphyGifData: item))
-                    }
+                    self.listGiffs.removeAll()
+                    self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
+                        Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
+                    }))
                     self.delegate?.success()
                 }
                 

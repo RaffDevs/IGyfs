@@ -8,7 +8,7 @@
 import UIKit
 
 class GiffScreen: UIView {
-    private var giffCollectionView: GiffCollectionView = GiffCollectionView()
+    var giffCollectionView: GiffCollectionView = GiffCollectionView()
     
         
     override init(frame: CGRect) {
@@ -24,6 +24,10 @@ class GiffScreen: UIView {
     
     func configCollectionView(delegate: UICollectionViewDelegate, datasource: UICollectionViewDataSource) {
         giffCollectionView.setupCollectionViewDelegate(delegate: delegate, datasource: datasource)
+    }
+    
+    func reloadCollectionViewData() {
+        giffCollectionView.collection.reloadData()
     }
     
     private func setupElements() {

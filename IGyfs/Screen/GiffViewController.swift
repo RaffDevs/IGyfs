@@ -9,7 +9,7 @@ import UIKit
 
 class GiffViewController: UIViewController {
     private var giffScreen: GiffScreen?
-    private var giffViewModel: GiffViewModel = GiffViewModel()
+    private var giffViewModel: GiffViewModel = GiffViewModel.shared
     
     override func loadView() {
         giffScreen = GiffScreen()
@@ -19,6 +19,7 @@ class GiffViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         giffViewModel.delegate(delegate: self)
+        giffScreen?.configCollectionView(delegate: self, datasource: self)
         giffViewModel.getTrendingGiffs()
         
     }
@@ -64,14 +65,16 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension GiffViewController: GiffViewModelProtocol {
     func success() {
         print(#function)
-        DispatchQueue.main.async {
-            self.giffScreen?.configCollectionView(delegate: self, datasource: self)
-        }
-        
+        self.giffScreen?.reloadCollectionViewData()
+
     }
     
     func error() {
         print(#function)
+    }
+    
+    func reloadSearchGiffs() {
+        self.giffScreen?.reloadCollectionViewData()
     }
     
     

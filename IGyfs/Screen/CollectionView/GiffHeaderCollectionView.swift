@@ -10,6 +10,8 @@ import UIKit
 class GiffHeaderCollectionView: UICollectionReusableView {
     static let identifier = "giffHeader"
     
+    private let giffViewModel = GiffViewModel.shared
+    
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -21,15 +23,23 @@ class GiffHeaderCollectionView: UICollectionReusableView {
         return textField
     }()
     
+    private func setupHeaderTextFieldDelegate(delegate: UITextFieldDelegate) {
+        textField.delegate = delegate
+    }
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupElements()
         setupConstraints()
+        setupHeaderTextFieldDelegate(delegate: self)
+    
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     private func setupElements() {
         addSubview(textField)
@@ -46,4 +56,22 @@ class GiffHeaderCollectionView: UICollectionReusableView {
     }
     
     
+}
+
+extension GiffHeaderCollectionView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let textSearch = textField.text {
+            if (textSearch.isEmpty) {
+                giffViewModel.getTrendingGiffs()
+            } else {
+                giffViewModel.searchForGiffs(search: textSearch)
+            }
+        }
+        
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.text?.removeAll()
+    }
 }

@@ -13,11 +13,67 @@ enum GiffServiceError: Swift.Error {
     case fetchImageError(detail: String)
 }
 
+struct GiffParamters: Encodable {
+    let key: String = "VRKeEOYSevFpO1MZBIIo8eQr2P5ahRPr"
+    var limit: Int = 25
+    var q: String? = nil
+    var offset: Int = 0
+    var lang: String = "en"
+}
+
 class GiffService {
-    func getTrendingGiffs(completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
-        let url: String =  "https://api.giphy.com/v1/gifs/trending?api_key=VRKeEOYSevFpO1MZBIIo8eQr2P5ahRPr&limit=25&rating=g"
+    private let stringURL: String = "https://api.giphy.com/v1/gifs/"
+    private var paramters: GiffParamters = GiffParamters()
+
+    static let shared: GiffService = GiffService()
+
+    
+    private init() {}
+    
+    func getGiffById(id: String, completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
+        guard var url = URL(string: stringURL) else { return }
+        url.append(path: id)
         
-        AF.request(url, method: .get).validate().responseDecodable(of: GyphyDataEntity.self) { response in
+        AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
+            debugPrint(response)
+            
+            switch response.result {
+                
+            case .success(let success):
+                print("Sucesso -> \(#function)")
+                completion(success, nil)
+            case .failure(let error):
+                print("Falha -> \(#function)")
+                completion(nil, error)
+            }
+        }
+    }
+    
+    func getTrendingGiffs(completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
+        guard var url = URL(string: stringURL) else { return }
+        url.append(path: "trending")
+        
+        AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
+            debugPrint(response)
+            
+            switch response.result {
+                
+            case .success(let success):
+                print("Sucesso -> \(#function)")
+                completion(success, nil)
+            case .failure(let error):
+                print("Falha -> \(#function)")
+                completion(nil, error)
+            }
+        }
+    }
+    
+    func searchGiffs(search: String, completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
+        guard var url = URL(string: stringURL) else { return }
+        url.append(path: "search")
+        paramters.q = search
+        
+        AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
             debugPrint(response)
             
             switch response.result {
