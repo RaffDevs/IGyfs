@@ -30,31 +30,45 @@ class GiffCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    
+        
     lazy var button: UIButton = {
         let button = UIButton(type: .system)
+        let plusIconImage = UIImage(systemName: "plus")
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        button.setImage(plusIconImage, for: .normal)
+        button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+        button.setPreferredSymbolConfiguration(symbolConfig, forImageIn: .normal)
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(tappedLoadMoreGiffs), for: .touchUpInside)
         
         return button
     }()
     
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+        
+        return activityIndicator
+    }()
+    
+    
     override func prepareForReuse() {
         image.image = UIImage()
-
         super.prepareForReuse()
     }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .darkGray
         clipsToBounds = true
         layer.cornerRadius = 3
-        setupElements()
+        setupElement()
         setupConstraints()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -63,13 +77,15 @@ class GiffCollectionViewCell: UICollectionViewCell {
     
     public func setupCell(giff: Giff?, isCellAction: Bool = false) {
         if (isCellAction) {
-            image.isHidden = true
+            activityIndicator.stopAnimating()
+           setupLoadMoreButtonElement()
         } else {
-            label.isHidden = true
-            button.isHidden = true
+            setupGiffCellElement()
             
             if let giffData = giff {
                 giffViewModel.loadImageGiff(urlString: giffData.mediaUrl) { imageData in
+                    self.activityIndicator.stopAnimating()
+
                     guard let giffImage = imageData else { return }
                     let animatedImage = SDAnimatedImage(data: giffImage)
                     self.image.image = animatedImage
@@ -82,23 +98,48 @@ class GiffCollectionViewCell: UICollectionViewCell {
         
     }
     
-    private func setupElements() {
-        contentView.addSubview(image)
+    @objc private func tappedLoadMoreGiffs(_ sender: UIButton) {
+        giffViewModel.getMoreGiffs()
     }
     
-    private func setupConstraints() {
+    private func setupLoadMoreButtonElement() {
+        contentView.addSubview(label)
+        contentView.addSubview(button)
+
+        
         NSLayoutConstraint.activate([
-            image.topAnchor.constraint(equalTo: topAnchor),
-            image.leadingAnchor.constraint(equalTo: leadingAnchor),
-            image.trailingAnchor.constraint(equalTo: trailingAnchor),
-            image.bottomAnchor.constraint(equalTo: bottomAnchor),
-                        
-            button.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            button.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
             
             label.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 5),
             label.centerXAnchor.constraint(equalTo: centerXAnchor)
             
         ])
     }
+    
+    private func setupGiffCellElement() {
+        
+        contentView.addSubview(image)
+        
+        NSLayoutConstraint.activate([
+            image.topAnchor.constraint(equalTo: topAnchor),
+            image.leadingAnchor.constraint(equalTo: leadingAnchor),
+            image.trailingAnchor.constraint(equalTo: trailingAnchor),
+            image.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+    }
+    
+    private func setupElement() {
+        contentView.addSubview(activityIndicator)
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
+    }
+    
 }

@@ -36,7 +36,7 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GiffCollectionViewCell.identifier, for: indexPath) as? GiffCollectionViewCell
         
-        if indexPath.row == collectionView.numberOfSections {
+        if indexPath.row == giffViewModel.giffs.count {
             cell?.setupCell(giff: nil, isCellAction: true)
         } else {
             cell?.setupCell(giff: giffViewModel.giffs[indexPath.row])

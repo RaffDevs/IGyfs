@@ -31,6 +31,23 @@ class GiffViewModel {
         listGiffs
     }
     
+    func getMoreGiffs() {
+        giffService.getMoreGiffs { data, error in
+            if error == nil {
+                if let gyphyData = data?.data {
+                    self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
+                        Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
+                    }))
+                    self.delegate?.reloadSearchGiffs()
+                    
+                }
+            } else {
+                print(error!.localizedDescription)
+                self.delegate?.error()
+            }
+        }
+    }
+    
     func searchForGiffs(search: String) {
         giffService.searchGiffs(search: search) { data, error in
             if error == nil {

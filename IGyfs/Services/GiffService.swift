@@ -33,12 +33,12 @@ class GiffService {
     
     func getMoreGiffs(completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
         guard var url = URL(string: stringURL) else { return }
-        paramters.limit += 25
         paramters.offset += 25
-        
+        url.append(path: stringPathURL)
+
         AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
             debugPrint(response)
-            
+
             switch response.result {
                 
             case .success(let success):

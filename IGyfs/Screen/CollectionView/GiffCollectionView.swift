@@ -15,11 +15,11 @@ class GiffCollectionView: UIView {
         let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = .vertical
         collectionLayout.minimumInteritemSpacing = 3
-        collectionLayout.minimumLineSpacing = 3
+        collectionLayout.minimumLineSpacing = 5
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 23, bottom: 0, right: 23)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
         collectionView.register(GiffCollectionViewCell.self, forCellWithReuseIdentifier: GiffCollectionViewCell.identifier)
         collectionView.register(GiffHeaderCollectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: GiffHeaderCollectionView.identifier)
         
