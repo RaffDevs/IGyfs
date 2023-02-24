@@ -23,6 +23,7 @@ struct GiffParamters: Encodable {
 
 class GiffService {
     private let stringURL: String = "https://api.giphy.com/v1/gifs/"
+    private var stringPathURL: String = "trending"
     private var paramters: GiffParamters = GiffParamters()
 
     static let shared: GiffService = GiffService()
@@ -30,10 +31,31 @@ class GiffService {
     
     private init() {}
     
+    func getMoreGiffs(completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
+        guard var url = URL(string: stringURL) else { return }
+        paramters.limit += 25
+        paramters.offset += 25
+        
+        AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
+            debugPrint(response)
+            
+            switch response.result {
+                
+            case .success(let success):
+                print("Sucesso -> \(#function)")
+                completion(success, nil)
+            case .failure(let error):
+                print("Falha -> \(#function)")
+                completion(nil, error)
+            }
+        }
+        
+    }
+    
     func getGiffById(id: String, completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
         guard var url = URL(string: stringURL) else { return }
-        url.append(path: id)
-        
+        stringPathURL = id
+        url.append(path: stringPathURL)
         AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
             debugPrint(response)
             
@@ -51,7 +73,8 @@ class GiffService {
     
     func getTrendingGiffs(completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
         guard var url = URL(string: stringURL) else { return }
-        url.append(path: "trending")
+        stringPathURL = "trending"
+        url.append(path: stringPathURL)
         
         AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in
             debugPrint(response)
@@ -70,7 +93,8 @@ class GiffService {
     
     func searchGiffs(search: String, completion: @escaping (GyphyDataEntity?, Error?) -> Void) {
         guard var url = URL(string: stringURL) else { return }
-        url.append(path: "search")
+        stringPathURL = "search"
+        url.append(path: stringPathURL)
         paramters.q = search
         
         AF.request(url, method: .get, parameters: paramters).validate().responseDecodable(of: GyphyDataEntity.self) { response in

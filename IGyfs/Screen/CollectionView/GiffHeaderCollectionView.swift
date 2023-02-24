@@ -48,8 +48,8 @@ class GiffHeaderCollectionView: UICollectionReusableView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             textField.centerYAnchor.constraint(equalTo: centerYAnchor),
-            textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            textField.leadingAnchor.constraint(equalTo: leadingAnchor),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor),
             textField.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             textField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
         ])

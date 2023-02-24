@@ -30,19 +30,23 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return giffViewModel.giffs.count
+        return giffViewModel.giffs.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GiffCollectionViewCell.identifier, for: indexPath) as? GiffCollectionViewCell
         
-        cell?.setupCell(giff: giffViewModel.giffs[indexPath.row])
-        
+        if indexPath.row == collectionView.numberOfSections {
+            cell?.setupCell(giff: nil, isCellAction: true)
+        } else {
+            cell?.setupCell(giff: giffViewModel.giffs[indexPath.row])
+        }
+                
         return cell ?? UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemSize = UIScreen.main.bounds.width/2 - 3
+        let itemSize = UIScreen.main.bounds.width/2.3 - 3
 
         return CGSize(width: itemSize, height: itemSize)
     }
