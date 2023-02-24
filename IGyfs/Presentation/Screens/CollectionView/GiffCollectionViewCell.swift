@@ -12,6 +12,7 @@ import SDWebImage
 class GiffCollectionViewCell: UICollectionViewCell {
     static let identifier = "GiffCollectionViewCell"
     private let giffViewModel: GiffViewModel = GiffViewModel.shared
+    private var giffData: Giff? = nil
     
     lazy var image: UIImageView = {
         let image = SDAnimatedImageView()
@@ -55,6 +56,12 @@ class GiffCollectionViewCell: UICollectionViewCell {
         return activityIndicator
     }()
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let showGiffViewController = ShowGiffViewController()
+        showGiffViewController.giffData = giffData
+        giffViewModel.showCurrentGiff(viewController: showGiffViewController)
+    }
+    
     
     override func prepareForReuse() {
         image.image = UIImage()
@@ -83,6 +90,7 @@ class GiffCollectionViewCell: UICollectionViewCell {
             setupGiffCellElement()
             
             if let giffData = giff {
+                self.giffData = giff
                 giffViewModel.loadImageGiff(urlString: giffData.mediaUrl) { imageData in
                     self.activityIndicator.stopAnimating()
 

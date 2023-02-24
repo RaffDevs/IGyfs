@@ -11,7 +11,7 @@ import AlamofireImage
 protocol GiffViewModelProtocol: AnyObject {
     func success()
     func error()
-    func reloadSearchGiffs()
+    func show(viewController: UIViewController)
 }
 
 class GiffViewModel {
@@ -38,7 +38,7 @@ class GiffViewModel {
                     self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
                         Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
                     }))
-                    self.delegate?.reloadSearchGiffs()
+                    self.delegate?.success()
                     
                 }
             } else {
@@ -56,7 +56,7 @@ class GiffViewModel {
                     self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
                         Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
                     }))
-                    self.delegate?.reloadSearchGiffs()
+                    self.delegate?.success()
                     
                 }
             } else {
@@ -94,5 +94,9 @@ class GiffViewModel {
                 print(error!.localizedDescription)
             }
         }
+    }
+    
+    func showCurrentGiff(viewController: UIViewController) {
+        self.delegate?.show(viewController: viewController)
     }
 }

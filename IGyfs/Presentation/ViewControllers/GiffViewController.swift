@@ -67,6 +67,10 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 extension GiffViewController: GiffViewModelProtocol {
+    func show(viewController: UIViewController) {
+        present(viewController, animated: true)
+    }
+    
     func success() {
         print(#function)
         self.giffScreen?.reloadCollectionViewData()
@@ -75,10 +79,6 @@ extension GiffViewController: GiffViewModelProtocol {
     
     func error() {
         print(#function)
-    }
-    
-    func reloadSearchGiffs() {
-        self.giffScreen?.reloadCollectionViewData()
     }
     
     
