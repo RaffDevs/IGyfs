@@ -14,10 +14,17 @@ class GiffHeaderCollectionView: UICollectionReusableView {
     
     lazy var textField: UITextField = {
         let textField = UITextField()
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "Buscar Giff"
+        textField.clipsToBounds = true
+        textField.layer.cornerRadius = 8.0
+        textField.layer.borderWidth = 1.0
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.placeholder = "Buscar"
+        textField.attributedPlaceholder = NSAttributedString(string: "Buscar Giff", attributes: attributes)
         textField.textColor = .white
+        textField.backgroundColor = .black
         textField.autocorrectionType = .no
         
         return textField

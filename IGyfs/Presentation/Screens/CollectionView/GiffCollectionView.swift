@@ -22,6 +22,7 @@ class GiffCollectionView: UIView {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
         collectionView.register(GiffCollectionViewCell.self, forCellWithReuseIdentifier: GiffCollectionViewCell.identifier)
         collectionView.register(GiffHeaderCollectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: GiffHeaderCollectionView.identifier)
+        collectionView.backgroundColor = .black
         
         return collectionView
     }()
@@ -34,6 +35,7 @@ class GiffCollectionView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
     }
     
     required init?(coder: NSCoder) {

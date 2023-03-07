@@ -26,7 +26,7 @@ class ShowGiffScreen: UIView {
     lazy var giffImage: UIImageView = {
         let image = SDAnimatedImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleAspectFit
 
         return image
     }()
@@ -70,14 +70,14 @@ class ShowGiffScreen: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            giffDescription.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            giffDescription.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
             giffDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             giffDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             
             giffImage.topAnchor.constraint(equalTo: giffDescription.bottomAnchor, constant: 10),
             giffImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            giffImage.heightAnchor.constraint(equalToConstant: 250),
-            giffImage.widthAnchor.constraint(equalToConstant: 250)
+            giffImage.widthAnchor.constraint(equalToConstant: 500),
+            giffImage.heightAnchor.constraint(equalToConstant: 500),
         ])
     }
     
