@@ -22,6 +22,9 @@
 		6A91EBD929A59636002CB384 /* GyphyDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A91EBD829A59636002CB384 /* GyphyDataEntity.swift */; };
 		6A91EBDB29A59674002CB384 /* GiffService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A91EBDA29A59674002CB384 /* GiffService.swift */; };
 		6A91EBDD29A59986002CB384 /* Giff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A91EBDC29A59986002CB384 /* Giff.swift */; };
+		6A97037729BF6BC00097896C /* TabBarControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A97037629BF6BC00097896C /* TabBarControllerViewController.swift */; };
+		6A97037929BF6D790097896C /* FavoriteGiffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A97037829BF6D790097896C /* FavoriteGiffViewController.swift */; };
+		6A97037D29BFA52F0097896C /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A97037C29BFA52F0097896C /* MainScreen.swift */; };
 		6AECD2CA299DA50200C3A9E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AECD2C9299DA50200C3A9E9 /* AppDelegate.swift */; };
 		6AECD2CC299DA50200C3A9E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AECD2CB299DA50200C3A9E9 /* SceneDelegate.swift */; };
 		6AECD2D4299DA50200C3A9E9 /* IGyfs.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AECD2D2299DA50200C3A9E9 /* IGyfs.xcdatamodeld */; };
@@ -45,6 +48,9 @@
 		6A91EBD829A59636002CB384 /* GyphyDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyphyDataEntity.swift; sourceTree = "<group>"; };
 		6A91EBDA29A59674002CB384 /* GiffService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiffService.swift; sourceTree = "<group>"; };
 		6A91EBDC29A59986002CB384 /* Giff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Giff.swift; sourceTree = "<group>"; };
+		6A97037629BF6BC00097896C /* TabBarControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerViewController.swift; sourceTree = "<group>"; };
+		6A97037829BF6D790097896C /* FavoriteGiffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGiffViewController.swift; sourceTree = "<group>"; };
+		6A97037C29BFA52F0097896C /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		6AECD2C6299DA50200C3A9E9 /* IGyfs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IGyfs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AECD2C9299DA50200C3A9E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6AECD2CB299DA50200C3A9E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +89,7 @@
 				6A91EBCA29A56A57002CB384 /* CollectionView */,
 				6A91EBC129A56901002CB384 /* GiffScreen.swift */,
 				6A57BA2C29A9536E009DD3E1 /* ShowGiffScreen.swift */,
+				6A97037C29BFA52F0097896C /* MainScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -92,6 +99,8 @@
 			children = (
 				6A91EBBE29A54430002CB384 /* GiffViewController.swift */,
 				6A57BA2A29A95344009DD3E1 /* ShowGiffViewController.swift */,
+				6A97037629BF6BC00097896C /* TabBarControllerViewController.swift */,
+				6A97037829BF6D790097896C /* FavoriteGiffViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -308,8 +317,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A97037729BF6BC00097896C /* TabBarControllerViewController.swift in Sources */,
 				6A91EBD929A59636002CB384 /* GyphyDataEntity.swift in Sources */,
 				6A91EBCE29A572AD002CB384 /* GiffViewModel.swift in Sources */,
+				6A97037929BF6D790097896C /* FavoriteGiffViewController.swift in Sources */,
 				6AECD2D4299DA50200C3A9E9 /* IGyfs.xcdatamodeld in Sources */,
 				6A91EBD229A57BCC002CB384 /* GiffHeaderCollectionView.swift in Sources */,
 				6A91EBDB29A59674002CB384 /* GiffService.swift in Sources */,
@@ -321,6 +332,7 @@
 				6AECD2CA299DA50200C3A9E9 /* AppDelegate.swift in Sources */,
 				6A91EBBF29A54430002CB384 /* GiffViewController.swift in Sources */,
 				6A91EBD529A5959D002CB384 /* GiffEntity.swift in Sources */,
+				6A97037D29BFA52F0097896C /* MainScreen.swift in Sources */,
 				6A57BA2D29A9536E009DD3E1 /* ShowGiffScreen.swift in Sources */,
 				6AECD2CC299DA50200C3A9E9 /* SceneDelegate.swift in Sources */,
 				6A57BA2B29A95344009DD3E1 /* ShowGiffViewController.swift in Sources */,

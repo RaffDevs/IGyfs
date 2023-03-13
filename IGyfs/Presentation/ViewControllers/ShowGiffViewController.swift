@@ -25,7 +25,6 @@ class ShowGiffViewController: UIViewController {
         showGiffViewModel.delegate(delegate: self)
         showGiffScrene?.setupGiffData(giff: giffData!)
 
-        // Do any additional setup after loading the view.
     }
 
 }
