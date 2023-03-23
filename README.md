@@ -23,4 +23,4 @@ Um app para buscar seus gifs favoritos
 [ ] Possibilitar o compartilhamento do GIFF<br>
 [ ] Favoritar o GIFF<br>
 [ ] Persistir em um banco local os GIFFs favoritos<br> 
-[ ] Implementar tab navigation<br> 
+[x] Implementar tab navigation<br> 
