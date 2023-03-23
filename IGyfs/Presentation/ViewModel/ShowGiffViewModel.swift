@@ -6,22 +6,31 @@
 //
 
 import Foundation
+import CoreData
 
 protocol ShowGiffViewModelProtocol: AnyObject {
     func success(giff: Giff?)
     func failure()
 }
 
+
 class ShowGiffViewModel {
     static let shared = ShowGiffViewModel()
     
     private let giffService: GiffService = GiffService.shared
+    private let giffDatabase: GiffDatabase = GiffDatabase.shared
     private weak var delegate: ShowGiffViewModelProtocol?
+    
+    private var currentGiff: Giff?
     
     private init() {}
     
     public func delegate(delegate: ShowGiffViewModelProtocol) {
         self.delegate = delegate
+    }
+    
+    public func setCurrentGiff(giff: Giff) {
+        currentGiff = giff
     }
     
     public func getGiffById(id: String) {
@@ -38,7 +47,7 @@ class ShowGiffViewModel {
             }
         }
     
-    func loadImageGiff(urlString: String, completion: @escaping (Data?) -> Void) {
+    public func loadImageGiff(urlString: String, completion: @escaping (Data?) -> Void) {
         giffService.getImageFromGiff(urlRaw: urlString) { data, error in
             if error == nil {
                 completion(data)
@@ -48,7 +57,15 @@ class ShowGiffViewModel {
             }
         }
     }
+    
+    public func saveGiffAsFavorite() {
+        if currentGiff != nil {
+            giffDatabase.saveFavoriteGiff(giff: currentGiff!, context: contextNS)
+        }
     }
+    
+    
+}
     
     
     

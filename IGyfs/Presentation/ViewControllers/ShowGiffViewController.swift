@@ -7,8 +7,6 @@
 
 import UIKit
 
-// TO DO: Arrumar o erro de decoded do payload da chamada de getGiffById
-
 class ShowGiffViewController: UIViewController {
     private var showGiffScrene:ShowGiffScreen?
     private var showGiffViewModel = ShowGiffViewModel.shared
@@ -23,6 +21,7 @@ class ShowGiffViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showGiffViewModel.delegate(delegate: self)
+        showGiffViewModel.setCurrentGiff(giff: giffData!)
         showGiffScrene?.setupGiffData(giff: giffData!)
 
     }
@@ -30,6 +29,7 @@ class ShowGiffViewController: UIViewController {
 }
 
 extension ShowGiffViewController: ShowGiffViewModelProtocol {
+    
     func success(giff: Giff?) {
         if let giffData = giff {
             showGiffScrene?.setupGiffData(giff: giffData)
@@ -39,6 +39,7 @@ extension ShowGiffViewController: ShowGiffViewModelProtocol {
     func failure() {
         print("Erro ao buscar dados do giff")
     }
+    
     
     
 }

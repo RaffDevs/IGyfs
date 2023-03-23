@@ -40,6 +40,25 @@ class ShowGiffScreen: UIView {
         return activityIndicator
     }()
     
+    lazy var likeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(tappedLike), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var sharingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        button.tintColor = .white
+
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -49,6 +68,10 @@ class ShowGiffScreen: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func tappedLike(_ sender: UIButton) {
+        showGiffViewModel.saveGiffAsFavorite()
     }
     
     public func setupGiffData(giff: Giff) {
@@ -66,6 +89,8 @@ class ShowGiffScreen: UIView {
         addSubview(giffDescription)
         addSubview(giffImage)
         addSubview(activityIndicator)
+        addSubview(likeButton)
+        addSubview(sharingButton)
     }
     
     private func setupConstraints() {
@@ -76,8 +101,15 @@ class ShowGiffScreen: UIView {
             
             giffImage.topAnchor.constraint(equalTo: giffDescription.bottomAnchor, constant: 10),
             giffImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            giffImage.widthAnchor.constraint(equalToConstant: 500),
-            giffImage.heightAnchor.constraint(equalToConstant: 500),
+            giffImage.widthAnchor.constraint(equalToConstant: 300),
+            giffImage.heightAnchor.constraint(equalToConstant: 300),
+            
+            likeButton.centerXAnchor.constraint(equalTo: giffImage.centerXAnchor, constant: -30),
+            likeButton.topAnchor.constraint(equalTo: giffImage.bottomAnchor, constant: 13),
+            
+            sharingButton.centerXAnchor.constraint(equalTo: giffImage.centerXAnchor, constant: 30),
+            sharingButton.topAnchor.constraint(equalTo: giffImage.bottomAnchor, constant: 10),
+
         ])
     }
     

@@ -23,4 +23,16 @@ struct Giff {
             mediaUrl: rawGif.images.fixed_height.url
         )
     }
+    
+    static func transformToGiffFrom(favoriteGiff giff: FavoriteGiff) -> Giff {
+        
+        let newGiff = Giff(
+            id: giff.giff_id ?? "",
+            title: giff.title ?? "",
+            url: giff.url ?? "",
+            mediaUrl: giff.giff_image ?? ""
+        )
+        
+        return newGiff
+    }
 }
