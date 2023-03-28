@@ -7,7 +7,7 @@
 
 import UIKit
 import SDWebImage
-
+import NotificationBannerSwift
 
 class ShowGiffScreen: UIView {
     private let showGiffViewModel = ShowGiffViewModel.shared
@@ -34,6 +34,7 @@ class ShowGiffScreen: UIView {
     lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
         
@@ -43,9 +44,10 @@ class ShowGiffScreen: UIView {
     lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(tappedLike), for: .touchUpInside)
+        button.isHidden = true
         
         return button
     }()
@@ -55,6 +57,7 @@ class ShowGiffScreen: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         button.tintColor = .white
+        button.isHidden = true
 
         return button
     }()
@@ -64,7 +67,10 @@ class ShowGiffScreen: UIView {
         backgroundColor = .black
         setupElements()
         setupConstraints()
+        showGiffViewModel.registerEvents(events: self)
     }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -74,16 +80,23 @@ class ShowGiffScreen: UIView {
         showGiffViewModel.saveGiffAsFavorite()
     }
     
+    private func toggleButtons() {
+        likeButton.isHidden = false
+        sharingButton.isHidden = false
+    }
+    
     public func setupGiffData(giff: Giff) {
         showGiffViewModel.loadImageGiff(urlString: giff.mediaUrl) { imageData in
             self.activityIndicator.stopAnimating()
-
             guard let giffImage = imageData else { return }
             let animatedImage = SDAnimatedImage(data: giffImage)
             self.giffImage.image = animatedImage
             self.giffDescription.text = giff.title
+            self.toggleButtons()
+
         }
     }
+    
     
     private func setupElements() {
         addSubview(giffDescription)
@@ -109,9 +122,30 @@ class ShowGiffScreen: UIView {
             
             sharingButton.centerXAnchor.constraint(equalTo: giffImage.centerXAnchor, constant: 30),
             sharingButton.topAnchor.constraint(equalTo: giffImage.bottomAnchor, constant: 10),
+            
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: 100),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+          
 
         ])
     }
     
+    
+}
+
+extension ShowGiffScreen: ShowGiffEvents {
+    func showBanner(message: String, style: NotificationBannerSwift.BannerStyle) {
+        let banner = NotificationBanner(
+            title: message,
+            style: style
+        )
+        
+        banner.duration = 2
+        banner.show()
+    }
+    
+    func toogleLikeButton(toggle: Bool) {
+        likeButton.tintColor = toggle ? .red : .white
+    }
     
 }

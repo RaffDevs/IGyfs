@@ -29,6 +29,10 @@ class ShowGiffViewController: UIViewController {
 }
 
 extension ShowGiffViewController: ShowGiffViewModelProtocol {
+    func dismissShowGiffModal() {
+        dismiss(animated: true)
+    }
+    
     
     func success(giff: Giff?) {
         if let giffData = giff {

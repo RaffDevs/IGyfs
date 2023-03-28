@@ -6,17 +6,21 @@
 //
 
 import Foundation
+import UIKit
 
 protocol FavoriteGiffViewModelProtocol: AnyObject {
+    func show(viewController: UIViewController)
     func success()
     func error()
 }
 
 
-class FavoriteGiffViewModel {
+class FavoriteGiffViewModel: NSObject {
     static let shared: FavoriteGiffViewModel = FavoriteGiffViewModel()
     
     private let giffDatabase: GiffDatabase = GiffDatabase.shared
+    
+    private let favoriteGiffScreen: FavoriteGiffScreen = FavoriteGiffScreen()
     
     private var favoriteGiffList: [Giff] = []
     
@@ -30,18 +34,20 @@ class FavoriteGiffViewModel {
         self.delegate = delegate
     }
     
-    private init() {}
     
     public func getFavoriteGiffs() {
         let giffs = giffDatabase.getFavoriteGiffs(context: contextNS)
         
         if !giffs.isEmpty {
             favoriteGiffList.removeAll()
-            favoriteGiffList.append(contentsOf: giffs.map({favGiff in
+            favoriteGiffList.append(contentsOf: giffs.map({ favGiff in
                 Giff.transformToGiffFrom(favoriteGiff: favGiff!)
-                })
-            )
+                }))
             self.delegate?.success()
         }
+    }
+    
+    public func showCurrentGiff(viewController: UIViewController) {
+        self.delegate?.show(viewController: viewController)
     }
 }

@@ -9,7 +9,22 @@ import UIKit
 
 class GiffScreen: UIView {
     var giffCollectionView: GiffCollectionView = GiffCollectionView()
+    private let giffViewModel: GiffViewModel = GiffViewModel.shared
     
+    lazy var getMoreGiffButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Carregar Mais", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .tintColor
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 3
+        button.isHidden = true
+        button.addTarget(self, action: #selector(tappedLoadMoreGiffs), for: .touchUpInside)
+
+        
+        return button
+    }()
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,16 +36,38 @@ class GiffScreen: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCollectionView(delegate: UICollectionViewDelegate, datasource: UICollectionViewDataSource) {
+    @objc private func tappedLoadMoreGiffs(_ sender: UIButton) {
+        giffViewModel.getMoreGiffs()
+        showButton(show: false)
+    }
+    
+    public func configCollectionView(delegate: UICollectionViewDelegate, datasource: UICollectionViewDataSource) {
         giffCollectionView.setupCollectionViewDelegate(delegate: delegate, datasource: datasource)
     }
     
-    func reloadCollectionViewData() {
+    public func reloadCollectionViewData() {
         giffCollectionView.collection.reloadData()
+    }
+    
+    public func showButton(show: Bool) {
+        if show {
+            UIView.animate(withDuration: 1) {
+                self.getMoreGiffButton.isHidden = false
+                self.getMoreGiffButton.transform = CGAffineTransform(translationX: 0, y: -70)
+                
+            }
+        } else {
+            UIView.animate(withDuration: 1) {
+                self.getMoreGiffButton.isHidden = false
+                self.getMoreGiffButton.transform = CGAffineTransform(translationX: 0, y: self.getMoreGiffButton.frame.height)
+                
+            }
+        }
     }
     
     private func setupElements() {
         addSubview(giffCollectionView.collection)
+        addSubview(getMoreGiffButton)
     }
     
     private func setupConstraints() {
@@ -38,8 +75,15 @@ class GiffScreen: UIView {
             giffCollectionView.collection.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             giffCollectionView.collection.leadingAnchor.constraint(equalTo: leadingAnchor),
             giffCollectionView.collection.trailingAnchor.constraint(equalTo: trailingAnchor),
-            giffCollectionView.collection.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            giffCollectionView.collection.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            getMoreGiffButton.topAnchor.constraint(equalTo: giffCollectionView.collection.bottomAnchor, constant: 10),
+            getMoreGiffButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
+            getMoreGiffButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25),
+            getMoreGiffButton.heightAnchor.constraint(equalToConstant: 50),
         ])
+        
+        giffCollectionView.collection.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
 }

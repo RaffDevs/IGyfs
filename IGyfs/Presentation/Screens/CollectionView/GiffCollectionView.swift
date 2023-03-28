@@ -17,6 +17,7 @@ class GiffCollectionView: UIView {
         collectionLayout.minimumInteritemSpacing = 3
         collectionLayout.minimumLineSpacing = 5
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+        collectionView.contentMode = .scaleAspectFill
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)

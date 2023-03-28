@@ -12,6 +12,7 @@ import SDWebImage
 class FavoriteGiffCollectionViewCell: UICollectionViewCell {
     static let identifier = "FavoriteGiffCollectionViewCell"
     private let giffViewModel: GiffViewModel = GiffViewModel.shared
+    private let favoriteGiffViewModel: FavoriteGiffViewModel = FavoriteGiffViewModel.shared
     private var giffData: Giff? = nil
     
     lazy var image: UIImageView = {
@@ -50,6 +51,13 @@ class FavoriteGiffCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let showGiffViewController = ShowGiffViewController()
+        showGiffViewController.giffData = giffData
+        favoriteGiffViewModel.showCurrentGiff(viewController: showGiffViewController)
+    }
+    
     
     public func setupCell(giff: Giff?, isCellAction: Bool = false) {
         setupGiffCellElement()

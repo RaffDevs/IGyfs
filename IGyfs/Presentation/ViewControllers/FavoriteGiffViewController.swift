@@ -11,6 +11,7 @@ class FavoriteGiffViewController: UIViewController {
     private var favoriteGiffScreen: FavoriteGiffScreen?
     private let giffDatabase: GiffDatabase = GiffDatabase.shared
     private let favoriteGiffViewModel: FavoriteGiffViewModel = FavoriteGiffViewModel.shared
+    private let showGiffViewModel: ShowGiffViewModel = ShowGiffViewModel.shared
     
     override func loadView() {
         favoriteGiffScreen = FavoriteGiffScreen()
@@ -21,8 +22,12 @@ class FavoriteGiffViewController: UIViewController {
         super.viewDidLoad()
         favoriteGiffViewModel.delegate(delegate: self)
         favoriteGiffScreen?.configCollectionView(delegate: self, datasource: self)
+        showGiffViewModel.registerUpdate(update: self)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         favoriteGiffViewModel.getFavoriteGiffs()
-
     }
     
 }
@@ -34,9 +39,7 @@ extension FavoriteGiffViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteGiffCollectionViewCell.identifier, for: indexPath) as? FavoriteGiffCollectionViewCell
-        
-        print("DADOS \(favoriteGiffViewModel.favoriteGiffs)")
-        
+                
         cell?.setupCell(giff: favoriteGiffViewModel.favoriteGiffs[indexPath.row])
                 
         return cell ?? UICollectionViewCell()
@@ -56,6 +59,10 @@ extension FavoriteGiffViewController: UICollectionViewDelegate, UICollectionView
 }
 
 extension FavoriteGiffViewController: FavoriteGiffViewModelProtocol {
+    func show(viewController: UIViewController) {
+        present(viewController, animated: true)
+    }
+    
     func success() {
         print(#function)
         self.favoriteGiffScreen?.reloadCollectionViewData()
@@ -63,6 +70,16 @@ extension FavoriteGiffViewController: FavoriteGiffViewModelProtocol {
     
     func error() {
         print(#function)
+    }
+    
+    
+}
+
+extension FavoriteGiffViewController: ShowGiffUpdateProtocol {
+    func updateData() {
+        DispatchQueue.main.async {
+            self.favoriteGiffViewModel.getFavoriteGiffs()
+        }
     }
     
     
