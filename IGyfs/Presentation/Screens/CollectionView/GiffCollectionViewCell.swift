@@ -31,8 +31,7 @@ class GiffCollectionViewCell: UICollectionViewCell {
     }()
     
     override func prepareForReuse() {
-        showActivityIndicator(false)
-
+        image.image = UIImage()
         super.prepareForReuse()
         
     }

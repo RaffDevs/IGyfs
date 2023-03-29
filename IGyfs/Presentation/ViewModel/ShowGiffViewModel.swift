@@ -11,6 +11,7 @@ import NotificationBannerSwift
 
 protocol ShowGiffViewModelProtocol: AnyObject {
     func success(giff: Giff?)
+    func shareGiff(giff: Giff)
     func dismissShowGiffModal()
     func failure()
 }
@@ -93,6 +94,10 @@ class ShowGiffViewModel {
         }
         
                 
+    }
+    
+    public func shareGiff() {
+        self.delegate?.shareGiff(giff: currentGiff!)
     }
     
     public func saveGiffAsFavorite() {

@@ -58,6 +58,7 @@ class ShowGiffScreen: UIView {
         button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         button.tintColor = .white
         button.isHidden = true
+        button.addTarget(self, action: #selector(tappedShare), for: .touchUpInside)
 
         return button
     }()
@@ -78,6 +79,10 @@ class ShowGiffScreen: UIView {
     
     @objc func tappedLike(_ sender: UIButton) {
         showGiffViewModel.saveGiffAsFavorite()
+    }
+    
+    @objc func tappedShare(_ sender: UIButton) {
+        showGiffViewModel.shareGiff()
     }
     
     private func toggleButtons() {

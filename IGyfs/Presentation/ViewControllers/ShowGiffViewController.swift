@@ -29,6 +29,15 @@ class ShowGiffViewController: UIViewController {
 }
 
 extension ShowGiffViewController: ShowGiffViewModelProtocol {
+    func shareGiff(giff: Giff) {
+        guard let url = URL(string: giff.mediaUrl) else { return }
+        guard let imageData = try? Data(contentsOf: url) else { return }
+        let imageToShare = [ imageData ]
+        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceItem = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     func dismissShowGiffModal() {
         dismiss(animated: true)
     }

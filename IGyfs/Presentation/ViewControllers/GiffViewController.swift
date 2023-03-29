@@ -73,11 +73,13 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         if (giffViewModel.giffs.count > 0 && currentOffset >= (contentHeight - collectionViewHeight)) {
             if !canShowButton {
+                print("Mostrar")
                 giffScreen?.showButton(show: true)
                 canShowButton = true
             }
-        } else if (currentOffset <= (contentHeight - visibleHeight) / 2) {
+        } else if (currentOffset <= (contentHeight - visibleHeight) / 1.1) {
             if canShowButton {
+                print("Não mostrar")
                 giffScreen?.showButton(show: false)
                 canShowButton = false
             }
@@ -87,15 +89,38 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 extension GiffViewController: GiffViewModelProtocol {
+
     func show(viewController: UIViewController) {
         present(viewController, animated: true)
     }
     
-    func success() {
+    func success(giffs: [Giff]?, isNewSearch: Bool) {
         print(#function)
-        self.giffScreen?.reloadCollectionViewData()
-
+        
+        if isNewSearch {
+            giffScreen?.reloadCollectionViewData()
+        } else {
+            guard let collectionView = self.giffScreen?.giffCollectionView.collection else { return }
+            let newCellCount = giffs?.count ?? 0
+            let newItemsCount = collectionView.numberOfItems(inSection: 0) + newCellCount
+            var indexPaths: [IndexPath] = []
+            
+            for index in collectionView.numberOfItems(inSection: 0)..<newItemsCount {
+                let indexPath = IndexPath(item: index, section: 0)
+                indexPaths.append(indexPath)
+            }
+            
+            collectionView.performBatchUpdates {
+                collectionView.insertItems(at: indexPaths)
+            }
+        }
+        
+        
+        
+        
+//        self.giffScreen?.reloadCollectionViewData()
     }
+    
     
     func error() {
         print(#function)

@@ -9,7 +9,7 @@ import Foundation
 import AlamofireImage
 
 protocol GiffViewModelProtocol: AnyObject {
-    func success()
+    func success(giffs: [Giff]?, isNewSearch: Bool)
     func error()
     func show(viewController: UIViewController)
 }
@@ -35,10 +35,11 @@ class GiffViewModel {
         giffService.getMoreGiffs { data, error in
             if error == nil {
                 if let gyphyData = data?.data {
-                    self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
+                    let giffs = gyphyData.map({gyphyEntity in
                         Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
-                    }))
-                    self.delegate?.success()
+                    })
+                    self.listGiffs.append(contentsOf: giffs)
+                    self.delegate?.success(giffs: giffs, isNewSearch: false)
                     
                 }
             } else {
@@ -52,12 +53,12 @@ class GiffViewModel {
         giffService.searchGiffs(search: search) { data, error in
             if error == nil {
                 if let gyphyData = data?.data {
-                    self.listGiffs.removeAll()
-                    self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
+                    let giffs = gyphyData.map({gyphyEntity in
                         Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
-                    }))
-                    self.delegate?.success()
-                    
+                    })
+                    self.listGiffs.removeAll()
+                    self.listGiffs.append(contentsOf: giffs)
+                    self.delegate?.success(giffs: giffs, isNewSearch: true)
                 }
             } else {
                 print(error!.localizedDescription)
@@ -71,11 +72,12 @@ class GiffViewModel {
         giffService.getTrendingGiffs { data, error in
             if error == nil {
                 if let gyphyData = data?.data {
-                    self.listGiffs.removeAll()
-                    self.listGiffs.append(contentsOf: gyphyData.map({ gyphyEntity in
+                    let giffs = gyphyData.map({gyphyEntity in
                         Giff.transformToGifFrom(gyphyGifData: gyphyEntity)
-                    }))
-                    self.delegate?.success()
+                    })
+                    self.listGiffs.removeAll()
+                    self.listGiffs.append(contentsOf: giffs)
+                    self.delegate?.success(giffs: giffs, isNewSearch: true)
                 }
                 
             } else {

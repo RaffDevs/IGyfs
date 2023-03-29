@@ -39,10 +39,11 @@ class FavoriteGiffViewModel: NSObject {
         let giffs = giffDatabase.getFavoriteGiffs(context: contextNS)
         
         if !giffs.isEmpty {
-            favoriteGiffList.removeAll()
-            favoriteGiffList.append(contentsOf: giffs.map({ favGiff in
-                Giff.transformToGiffFrom(favoriteGiff: favGiff!)
-                }))
+            let favGiffs = giffs.map({favGifEntity in
+                Giff.transformToGiffFrom(favoriteGiff: favGifEntity!)
+            })
+            self.favoriteGiffList.removeAll()
+            self.favoriteGiffList.append(contentsOf: favGiffs)
             self.delegate?.success()
         }
     }
