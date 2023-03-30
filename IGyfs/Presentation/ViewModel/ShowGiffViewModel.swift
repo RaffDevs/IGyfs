@@ -11,7 +11,7 @@ import NotificationBannerSwift
 
 protocol ShowGiffViewModelProtocol: AnyObject {
     func success(giff: Giff?)
-    func shareGiff(giff: Giff)
+    func shareGiff(giff: Data)
     func dismissShowGiffModal()
     func failure()
 }
@@ -36,6 +36,7 @@ class ShowGiffViewModel {
     private weak var update: ShowGiffUpdateProtocol?
     
     private var currentGiff: Giff?
+    private var giffData: Data?
     
     private init() {}
     
@@ -74,6 +75,7 @@ class ShowGiffViewModel {
         giffService.getImageFromGiff(urlRaw: urlString) { data, error in
             if error == nil {
                 self.getFavoriteGiffById()
+                self.giffData = data
                 completion(data)
             } else {
                 print(error!.localizedDescription)
@@ -97,7 +99,10 @@ class ShowGiffViewModel {
     }
     
     public func shareGiff() {
-        self.delegate?.shareGiff(giff: currentGiff!)
+        if let data = giffData {
+            self.delegate?.shareGiff(giff: data)
+
+        }
     }
     
     public func saveGiffAsFavorite() {

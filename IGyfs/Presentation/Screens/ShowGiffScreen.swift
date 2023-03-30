@@ -145,7 +145,7 @@ extension ShowGiffScreen: ShowGiffEvents {
             style: style
         )
         
-        banner.duration = 2
+        banner.duration = 1
         banner.show()
     }
     

@@ -29,6 +29,8 @@ class GiffCollectionView: UIView {
     }()
     
     
+    
+    
     func setupCollectionViewDelegate(delegate: UICollectionViewDelegate, datasource: UICollectionViewDataSource) {
         collection.delegate = delegate
         collection.dataSource = datasource

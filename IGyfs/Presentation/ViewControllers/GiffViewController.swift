@@ -96,6 +96,7 @@ extension GiffViewController: GiffViewModelProtocol {
     
     func success(giffs: [Giff]?, isNewSearch: Bool) {
         print(#function)
+        giffScreen?.removeActivityIndicator()
         
         if isNewSearch {
             giffScreen?.reloadCollectionViewData()
@@ -115,10 +116,6 @@ extension GiffViewController: GiffViewModelProtocol {
             }
         }
         
-        
-        
-        
-//        self.giffScreen?.reloadCollectionViewData()
     }
     
     

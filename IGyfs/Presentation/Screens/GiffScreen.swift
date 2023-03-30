@@ -26,10 +26,21 @@ class GiffScreen: UIView {
         return button
     }()
         
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupElements()
         setupConstraints()
+        activityIndicator.startAnimating()
+
     }
     
     required init?(coder: NSCoder) {
@@ -47,6 +58,11 @@ class GiffScreen: UIView {
     
     public func reloadCollectionViewData() {
         giffCollectionView.collection.reloadData()
+    }
+    
+    public func removeActivityIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.removeFromSuperview()
     }
     
     public func showButton(show: Bool) {
@@ -68,6 +84,7 @@ class GiffScreen: UIView {
     private func setupElements() {
         addSubview(giffCollectionView.collection)
         addSubview(getMoreGiffButton)
+        giffCollectionView.collection.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
@@ -81,6 +98,9 @@ class GiffScreen: UIView {
             getMoreGiffButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
             getMoreGiffButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25),
             getMoreGiffButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            activityIndicator.centerYAnchor.constraint(equalTo: giffCollectionView.collection.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: giffCollectionView.collection.centerXAnchor, constant: -20)
         ])
         
         giffCollectionView.collection.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
