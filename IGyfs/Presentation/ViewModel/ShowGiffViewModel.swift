@@ -116,6 +116,7 @@ class ShowGiffViewModel {
             } else {
                 giffDatabase.removeGiffFromFavorite(id: currentGiff!.id, context: contextNS) { success, error in
                     if (success) {
+                        print("Removeu com sucesso!")
                         self.events?.toogleLikeButton(toggle: false)
                         self.delegate?.dismissShowGiffModal()
                         self.update?.updateData()

@@ -73,13 +73,11 @@ extension GiffViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         if (giffViewModel.giffs.count > 0 && currentOffset >= (contentHeight - collectionViewHeight)) {
             if !canShowButton {
-                print("Mostrar")
                 giffScreen?.showButton(show: true)
                 canShowButton = true
             }
         } else if (currentOffset <= (contentHeight - visibleHeight) / 1.1) {
             if canShowButton {
-                print("Não mostrar")
                 giffScreen?.showButton(show: false)
                 canShowButton = false
             }

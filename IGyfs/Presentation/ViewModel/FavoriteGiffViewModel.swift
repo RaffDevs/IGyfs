@@ -37,15 +37,17 @@ class FavoriteGiffViewModel: NSObject {
     
     public func getFavoriteGiffs() {
         let giffs = giffDatabase.getFavoriteGiffs(context: contextNS)
-        
+
+        self.favoriteGiffList.removeAll()
+
         if !giffs.isEmpty {
             let favGiffs = giffs.map({favGifEntity in
                 Giff.transformToGiffFrom(favoriteGiff: favGifEntity!)
             })
-            self.favoriteGiffList.removeAll()
             self.favoriteGiffList.append(contentsOf: favGiffs)
-            self.delegate?.success()
         }
+        self.delegate?.success()
+
     }
     
     public func showCurrentGiff(viewController: UIViewController) {
